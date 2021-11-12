@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Box, Heading, Table, Thead, Tbody, Tr, Th, Td, Checkbox, Text, Flex, IconButton, HStack } from '@chakra-ui/react';
 import { FaQuestion } from 'react-icons/fa';
 
+import { AiOutlinePaperClip } from "react-icons/ai";
+
 import { Input } from "../../components/Form/Input";
 import { Select } from "../../components/Form/Select";
 
@@ -64,6 +66,7 @@ export function Attach() {
               <Checkbox colorScheme="primary" />
             </Th>
             <Th>Paciente</Th>
+            <Th>&nbsp;</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -74,8 +77,32 @@ export function Attach() {
             <Td>
               <Box>
                 <Text fontWeight="bold">João da Silva</Text>
-                <Text></Text>
+                <HStack spacing="1rem">
+                  <Text fontSize="0.8rem" color="gray.600">
+                    Registro:
+                    <Text as="span" ml="0.5rem" fontWeight="semibold" color="gray.500">101010</Text>
+                  </Text>
+                  <Text fontSize="0.8rem" color="gray.600">
+                    CPF:
+                    <Text as="span" ml="0.5rem" fontWeight="semibold" color="gray.500">000.000.000-00</Text>
+                  </Text>
+                  <Text fontSize="0.8rem" color="gray.600">
+                    Data de Nascimento:
+                    <Text as="span" ml="0.5rem" fontWeight="semibold" color="gray.500">10/10/1980</Text>
+                  </Text>
+                </HStack>
               </Box>
+            </Td>
+            <Td>
+              <HStack spacing="1rem">
+                <IconButton
+                  aria-label="Enviar arquivo"
+                  icon={<AiOutlinePaperClip />}
+                  colorScheme="black"
+                  fontSize="1.2rem"
+                  isRound
+                />
+              </HStack>
             </Td>
           </Tr>
         </Tbody>
