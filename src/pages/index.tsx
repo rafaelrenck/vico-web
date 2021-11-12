@@ -1,6 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
+import { Attach } from './billing';
 
 
 export default function Home() {
@@ -12,7 +13,7 @@ export default function Home() {
       align="center"
       justify="space-between"
     >
-      <Header/>
+      <Header />
 
       <Flex
         flex="1"
@@ -21,9 +22,11 @@ export default function Home() {
         maxW="1480px"
         mx="auto"
         px="2rem"
-        mt="2rem"
+        my="2rem"
       >
-        <Sidebar/>
+        <Sidebar />
+
+        <Attach />
       </Flex>
 
       <Flex as="footer" w="100%">

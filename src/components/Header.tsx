@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { Flex, Text, Avatar, IconButton, HStack, Image } from '@chakra-ui/react';
 import { RiUser3Line, RiLoginBoxLine, RiNotificationLine, RiLogoutBoxRLine, RiSettings2Line } from 'react-icons/ri';
-import { useState } from 'react';
+
 import { Input } from "../components/Form/Input";
 
 export function Header() {
@@ -31,21 +32,21 @@ export function Header() {
           >
             <HStack spacing="1rem" py="0.5rem" mr="2rem" pr="2rem" borderRightWidth="1px" borderColor="gray.700">
               <IconButton
-                aria-label="Login"
+                aria-label="Notificações"
                 icon={<RiNotificationLine />}
                 colorScheme="black"
                 fontSize="1.2rem"
                 isRound
               />
               <IconButton
-                aria-label="Login"
+                aria-label="Configurações"
                 icon={<RiSettings2Line />}
                 colorScheme="black"
                 fontSize="1.2rem"
                 isRound
               />
               <IconButton
-                aria-label="Login"
+                aria-label="Logout"
                 icon={<RiLogoutBoxRLine />}
                 colorScheme="black"
                 fontSize="1.2rem"
@@ -68,9 +69,8 @@ export function Header() {
         ) : (
           <Flex
             as="form"
-            direction="column"
           >
-            <HStack spacing="0.5rem">
+            <HStack spacing="0.5rem" bg="gray.900">
               <Input
                 type="text"
                 name="username"
