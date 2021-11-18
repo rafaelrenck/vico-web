@@ -56,6 +56,7 @@ export function Input({ name, label, ...rest }: InputProps) {
         borderColor="gray.700"
         transition="0.25s"
         focusBorderColor="white"
+        textTransform="uppercase"
         _hover={{
           borderColor: "gray.600"
         }}

@@ -14,7 +14,7 @@ export function Header() {
       maxW="1480px"
       h="6rem"
       mx="auto"
-      my="1rem"
+      mt="1rem"
       px="2rem"
       alignItems="center"
     >

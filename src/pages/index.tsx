@@ -1,7 +1,9 @@
 import { Flex } from '@chakra-ui/react';
 import { Header } from '../components/Header';
+import { Body } from '../components/Body';
 import { Sidebar } from '../components/Sidebar';
 import { Attach } from './billing';
+import { Footer } from '../components/Footer';
 
 
 export default function Home() {
@@ -14,24 +16,13 @@ export default function Home() {
       justify="space-between"
     >
       <Header />
-
-      <Flex
-        flex="1"
-        as="main"
-        w="100%"
-        maxW="1480px"
-        mx="auto"
-        px="2rem"
-        my="2rem"
-      >
+      <Body>
         <Sidebar />
-
         <Attach />
-      </Flex>
-
-      <Flex as="footer" w="100%">
+      </Body>
+      <Footer>
         &copy; 2021 - Hospital São Vicente de Paulo
-      </Flex>
+      </Footer>
     </Flex>
   );
 }
