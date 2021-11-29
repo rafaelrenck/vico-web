@@ -5,10 +5,11 @@ import { FormControl, FormLabel, Input as FormInput, InputProps as FormInputProp
 interface InputProps extends FormInputProps {
   name: string;
   label?: string;
+  fixedLabel?: boolean;
 }
 
-export function Input({ name, label, ...rest }: InputProps) {
-  const [isFilled, setIsFilled] = useState(["date", "month"].includes(rest.type) ? true : false);
+export function Input({ name, label, fixedLabel, ...rest }: InputProps) {
+  const [isFilled, setIsFilled] = useState(false);
   const [value, setValue] = useState("");
 
   function handleTextChange(text) {
@@ -21,15 +22,17 @@ export function Input({ name, label, ...rest }: InputProps) {
     <FormControl
       position="relative"
       bg="inherit"
+      w={ rest.w ? rest.w : "auto" }
+      minW="16rem"
     >
       {!!label && (
         <FormLabel
           htmlFor={name}
           position="absolute"
-          top={ isFilled ? "-11px" : "6px" }
-          left={ isFilled ? "12px" : "15px" }
-          px={ isFilled ? "3px" : "0" }
-          color={ isFilled ? "gray.500" : "white" }
+          top={ fixedLabel || isFilled ? "-11px" : "6px" }
+          left={ fixedLabel || isFilled ? "12px" : "15px" }
+          px={ fixedLabel || isFilled ? "3px" : "0" }
+          color={ fixedLabel || isFilled ? "gray.500" : "white" }
           bg="inherit"
           zIndex="100"
           transition="0.25s"
@@ -64,9 +67,6 @@ export function Input({ name, label, ...rest }: InputProps) {
           ::-webkit-calendar-picker-indicator {
             filter: invert(1);
             cursor: pointer;
-          }
-          &[type="month"] {
-            max-width: 16rem;
           }
         `}
       />

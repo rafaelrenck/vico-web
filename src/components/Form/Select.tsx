@@ -11,6 +11,7 @@ export function Select({ name, label, ...rest }: SelectProps) {
     <FormControl
       position="relative"
       bg="inherit"
+      w="full"
     >
       {!!label && (
         <FormLabel
@@ -35,7 +36,6 @@ export function Select({ name, label, ...rest }: SelectProps) {
         id={name}
         name={name}
         {...rest}
-        minWidth="32rem"
         variant="filled"
         bg="transparent"
         borderRadius="full"

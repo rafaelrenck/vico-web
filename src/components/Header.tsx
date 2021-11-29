@@ -70,7 +70,7 @@ export function Header() {
           <Flex
             as="form"
           >
-            <HStack spacing="0.5rem" bg="gray.900">
+            <HStack spacing="1rem" bg="gray.900">
               <Input
                 type="text"
                 name="username"
