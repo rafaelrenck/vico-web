@@ -120,6 +120,7 @@ export function Attach() {
               value={filter.month}
               onChange={(e) => handleMonthChange(e.target.value)}
               fixedLabel
+              w="16rem"
             />
             <Checkbox colorScheme="primary" isChecked={filter.amb} onChange={(e) => handleTypeAmbChange()}>AMB</Checkbox>
             <Checkbox colorScheme="primary" isChecked={filter.ext} onChange={(e) => handleTypeExtChange()}>EXT</Checkbox>
@@ -139,6 +140,7 @@ export function Attach() {
               onChange={(e) => setInvoice(e.target.value)}
               onKeyDown={handleInvoiceUpdate}
               fixedLabel
+              w="16rem"
             />
             <Input
               type="text"

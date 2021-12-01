@@ -1,28 +1,59 @@
 import { useState } from 'react';
-import { Flex, Box } from '@chakra-ui/react';
+import { HStack, Flex, Box, IconButton, Icon, useBreakpointValue } from '@chakra-ui/react';
 
 import { Logo } from "./Logo";
 import { SignInForm } from "./SignInForm";
 import { Profile } from "./Profile";
+import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext';
+import { RiMenuLine } from 'react-icons/ri';
 
 
 export function Header() {
   const [logged, setLogged] = useState(false);
+  const { onOpen } = useSidebarDrawer();
+  
+  const showSidebarDrawer = useBreakpointValue({
+    base: false,
+    lg: true,
+  });
 
   return (
     <Flex
       as="header"
       w="100%"
       maxW="1480px"
-      h="6rem"
+      minH="6rem"
+      direction={{
+        base: "column",
+        md: "row",
+      }}
       mx="auto"
       mt="1rem"
       px="2rem"
-      align="center"
-      justify="space-between"
+      align={{
+        base: "stretch",
+        md: "center",
+      }}
+      justify={{
+        base: "flex-start",
+        md: "space-between",
+      }}
+      gridGap="2rem"
     >
-
-      <Logo />
+      <HStack>
+        { !showSidebarDrawer && (
+          <IconButton
+            aria-label="Abre a navegação"
+            h="100%"
+            icon={<Icon as={RiMenuLine} />}
+            fontSize="2rem"
+            variant="unstyled"
+            onClick={onOpen}
+            mr="1rem"
+          />
+        )}
+        <Logo />
+      </HStack>
 
       <Box>
         {logged ? (

@@ -1,12 +1,19 @@
-import { IconButton, HStack } from '@chakra-ui/react';
+import { Stack, IconButton } from '@chakra-ui/react';
 import { BiCheck } from "react-icons/bi";
 
 import { Input } from "../Form/Input";
 
-
 export function SignInForm() {
   return (
-    <HStack as="form" spacing="1rem" bg="gray.900">
+    <Stack
+      as="form"
+      direction={{
+        base: "row",
+        md: "column",
+        lg: "row"
+      }}
+      spacing="1rem"
+    >
       <Input
         type="text"
         name="username"
@@ -25,6 +32,6 @@ export function SignInForm() {
         fontSize="1.5rem"
         isRound
       />
-    </HStack>
+    </Stack>
   );
 }

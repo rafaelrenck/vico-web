@@ -22,8 +22,7 @@ export function Input({ name, label, fixedLabel, ...rest }: InputProps) {
     <FormControl
       position="relative"
       bg="inherit"
-      w={ rest.w ? rest.w : "auto" }
-      minW="16rem"
+      w={ rest.w ? rest.w : "100%" }
     >
       {!!label && (
         <FormLabel
