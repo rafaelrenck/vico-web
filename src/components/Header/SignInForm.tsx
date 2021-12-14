@@ -1,9 +1,30 @@
-import { Stack, IconButton } from '@chakra-ui/react';
-import { BiCheck } from "react-icons/bi";
+import { Stack, IconButton, Icon } from '@chakra-ui/react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { BiCheck, BiUser, BiLockOpenAlt } from "react-icons/bi";
 
 import { Input } from "../Form/Input";
 
+type SignInFormData = {
+  username: string;
+  password: string;
+}
+
+const SignInFormSchema = yup.object().shape({
+  username: yup.string().required("Usuário obrigatório"),
+  password: yup.string().required("Senha obrigatória"),
+});
+
 export function SignInForm() {
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(SignInFormSchema),
+  });
+
+  const handleSignIn: SubmitHandler<SignInFormData> =  (values) => {
+
+  }
+
   return (
     <Stack
       as="form"
@@ -13,16 +34,26 @@ export function SignInForm() {
         lg: "row"
       }}
       spacing="1rem"
+      bg="gray.900"
+      onSubmit={handleSubmit(handleSignIn)}
     >
       <Input
         type="text"
         name="username"
         label="Usuário"
+        icon={<Icon as={BiUser} />}
+        w="14rem"
+        {...register("username")}
+        error={formState.errors.username}
       />
       <Input
         type="password"
         name="password"
         label="Senha"
+        icon={<Icon as={BiLockOpenAlt} />}
+        w="14rem"
+        {...register("password")}
+        error={formState.errors.password}
       />
       <IconButton
         aria-label="Login"
@@ -31,6 +62,7 @@ export function SignInForm() {
         colorScheme="primary"
         fontSize="1.5rem"
         isRound
+        isLoading={formState.isSubmitting}
       />
     </Stack>
   );

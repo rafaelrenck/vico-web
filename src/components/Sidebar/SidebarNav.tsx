@@ -13,8 +13,8 @@ export function SidebarNav() {
       <NavSection title="Geral">
         <NavLink icon={RiHome2Line} href="/">Página inicial</NavLink>
         <NavLink icon={RiPhoneLine} href="/extensions">Ramais e telefones úteis</NavLink>
-        <NavLink icon={BiBone} href="/animati">Animati Pacs</NavLink>
-        <NavLink icon={BiVial} href="/fontana">Laboratório Fontana</NavLink>
+        <NavLink icon={BiBone} href="https://pacs.hsvosorio.com.br/">Animati Pacs</NavLink>
+        <NavLink icon={BiVial} href="http://laudos.fontanalaboratorioclinico.com.br/webscola/">Laboratório Fontana</NavLink>
         <NavLink icon={BiBox} href="/repository">Repositório de Documentos</NavLink>
       </NavSection>
       <NavSection title="Faturamento">

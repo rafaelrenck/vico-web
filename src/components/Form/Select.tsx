@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { FormControl, FormLabel, Select as FormSelect, SelectProps as FormSelectProps } from '@chakra-ui/react';
 
 interface SelectProps extends FormSelectProps {
@@ -45,12 +44,12 @@ export function Select({ name, label, ...rest }: SelectProps) {
         _hover={{
           borderColor: "gray.600",
         }}
-        css={css`
-          & option {
-            background-color: #181B23;
-            color: #616480;
-          }
-        `}
+        sx={{
+          "& option": {
+            backgroundColor: "gray.900",
+            color: "gray.500"
+          },
+        }}
       />
     </FormControl>
   );

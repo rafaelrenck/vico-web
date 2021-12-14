@@ -9,9 +9,9 @@ import { RiMenuLine } from 'react-icons/ri';
 
 
 export function Header() {
-  const [logged, setLogged] = useState(true);
+  const [logged, setLogged] = useState(false);
   const { onOpen } = useSidebarDrawer();
-  
+
   const showSidebarDrawer = useBreakpointValue({
     base: false,
     lg: true,
