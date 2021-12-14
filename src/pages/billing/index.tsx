@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, Checkbox, Flex, IconButton, HStack, Stack, Spinner } from '@chakra-ui/react';
+import { Heading, Checkbox, Flex, IconButton, HStack, Stack, Spinner, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
 import { FaQuestion } from 'react-icons/fa';
 import { BiEraser } from "react-icons/bi";
 
@@ -8,7 +8,8 @@ import { Select } from "../../components/Form/Select";
 import { Pagination } from "../../components/Pagination";
 import TableAppointments from '../../components/Attach/TableAppointments';
 
-export function Attach() {
+export default function Attach() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(() => true);
   const [invoice, setInvoice] = useState(() => "");
   const [patient, setPatient] = useState(() => "");
@@ -91,87 +92,92 @@ export function Attach() {
   }, [filter]);
 
   return (
-    <Box
-      as="section"
-      flex="1"
-    >
-      <Box
-        borderRadius="18px"
-        bg="gray.800"
-        p="2rem"
-      >
-        <Flex mb="4rem" alignItems="center" justifyContent="space-between">
-          <Heading size="lg" textTransform="uppercase">Anexar Documentos</Heading>
+    <>
+      <Flex mb="4rem" alignItems="center" justifyContent="space-between">
+        <Heading size="lg" textTransform="uppercase">Anexar Documentos</Heading>
+        <IconButton
+          aria-label="Ajuda"
+          icon={<FaQuestion />}
+          colorScheme="transparent"
+          fontSize="1.2rem"
+          color="gray.600"
+          isRound
+          onClick={onOpen}
+        />
+      </Flex>
+      <Stack mb="2rem" flexDirection="column" spacing="2rem">
+        <HStack w="full" spacing="2rem" bg="gray.800">
+          <Input
+            type="month"
+            name="scope"
+            label="Competência"
+            value={filter.month}
+            onChange={(e) => handleMonthChange(e.target.value)}
+            fixedLabel
+            w="16rem"
+          />
+          <Checkbox colorScheme="primary" isChecked={filter.amb} onChange={(e) => handleTypeAmbChange()}>AMB</Checkbox>
+          <Checkbox colorScheme="primary" isChecked={filter.ext} onChange={(e) => handleTypeExtChange()}>EXT</Checkbox>
+          <Checkbox colorScheme="primary" isChecked={filter.int} onChange={(e) => handleTypeIntChange()}>INT</Checkbox>
+          <Select name="health_insurance" label="Convênio" onChange={(e) => handleInsuranceChange(e.target.value)}>
+            {insurances.map(insurance => (
+              <option key={insurance.id} value={insurance.id} selected={insurance.id == filter.insurance ? true : false}>{insurance.name}</option>
+            ))}
+          </Select>
+        </HStack>
+        <HStack w="full" spacing="2rem" bg="gray.800">
+          <Input
+            type="number"
+            name="invoice"
+            label="Remessa"
+            value={invoice}
+            onChange={(e) => setInvoice(e.target.value)}
+            onKeyDown={handleInvoiceUpdate}
+            fixedLabel
+            w="16rem"
+          />
+          <Input
+            type="text"
+            name="patient"
+            label="Paciente"
+            value={patient}
+            onChange={(e) => setPatient(e.target.value)}
+            onKeyDown={handlePatientUpdate}
+            fixedLabel
+            w="100%"
+          />
           <IconButton
-            aria-label="Ajuda"
-            icon={<FaQuestion />}
-            colorScheme="transparent"
+            aria-label="Limpar formulário"
+            icon={<BiEraser />}
+            colorScheme="dark"
             fontSize="1.2rem"
-            color="gray.600"
+            onClick={() => handleCleanFilter()}
             isRound
           />
+        </HStack>
+      </Stack>
+      {loading ? (
+        <Flex justify="center" mt="5rem">
+          <Spinner size="xl" />
         </Flex>
-        <Stack mb="2rem" flexDirection="column" spacing="2rem">
-          <HStack w="full" spacing="2rem" bg="gray.800">
-            <Input
-              type="month"
-              name="scope"
-              label="Competência"
-              value={filter.month}
-              onChange={(e) => handleMonthChange(e.target.value)}
-              fixedLabel
-              w="16rem"
-            />
-            <Checkbox colorScheme="primary" isChecked={filter.amb} onChange={(e) => handleTypeAmbChange()}>AMB</Checkbox>
-            <Checkbox colorScheme="primary" isChecked={filter.ext} onChange={(e) => handleTypeExtChange()}>EXT</Checkbox>
-            <Checkbox colorScheme="primary" isChecked={filter.int} onChange={(e) => handleTypeIntChange()}>INT</Checkbox>
-            <Select name="health_insurance" label="Convênio" onChange={(e) => handleInsuranceChange(e.target.value)}>
-              {insurances.map(insurance => (
-                <option key={insurance.id} value={insurance.id} selected={insurance.id == filter.insurance ? true : false}>{insurance.name}</option>
-              ))}
-            </Select>
-          </HStack>
-          <HStack w="full" spacing="2rem" bg="gray.800">
-            <Input
-              type="number"
-              name="invoice"
-              label="Remessa"
-              value={invoice}
-              onChange={(e) => setInvoice(e.target.value)}
-              onKeyDown={handleInvoiceUpdate}
-              fixedLabel
-              w="16rem"
-            />
-            <Input
-              type="text"
-              name="patient"
-              label="Paciente"
-              value={patient}
-              onChange={(e) => setPatient(e.target.value)}
-              onKeyDown={handlePatientUpdate}
-              fixedLabel
-              w="100%"
-            />
-            <IconButton
-              aria-label="Limpar formulário"
-              icon={<BiEraser />}
-              colorScheme="dark"
-              fontSize="1.2rem"
-              onClick={() => handleCleanFilter()}
-              isRound
-            />
-          </HStack>
-        </Stack>
-        {loading ? (
-          <Flex justify="center" mt="5rem">
-            <Spinner size="xl" />
-          </Flex>
-        ) : (
+      ) : (
+        <>
           <TableAppointments appointments={appointments} />
-        )}
-        <Pagination />
-      </Box>
-
-    </Box>
+          <Modal isCentered motionPreset='slideInBottom' isOpen={isOpen} onClose={onClose} size="xl">
+            <ModalOverlay />
+            <ModalContent
+              bg="gray.800"
+            >
+              <ModalHeader>Anexar documento</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                              
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        </>
+      )}
+      <Pagination />
+    </>
   );
 }

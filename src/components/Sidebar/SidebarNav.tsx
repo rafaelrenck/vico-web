@@ -11,14 +11,14 @@ export function SidebarNav() {
   return (
     <Stack spacing="3rem" align="flex-start">
       <NavSection title="Geral">
-        <NavLink icon={RiHome2Line}>Página inicial</NavLink>
-        <NavLink icon={RiPhoneLine}>Ramais e telefones úteis</NavLink>
-        <NavLink icon={BiBone}>Animati Pacs</NavLink>
-        <NavLink icon={BiVial}>Laboratório Fontana</NavLink>
-        <NavLink icon={BiBox}>Repositório de Documentos</NavLink>
+        <NavLink icon={RiHome2Line} href="/">Página inicial</NavLink>
+        <NavLink icon={RiPhoneLine} href="/extensions">Ramais e telefones úteis</NavLink>
+        <NavLink icon={BiBone} href="/animati">Animati Pacs</NavLink>
+        <NavLink icon={BiVial} href="/fontana">Laboratório Fontana</NavLink>
+        <NavLink icon={BiBox} href="/repository">Repositório de Documentos</NavLink>
       </NavSection>
       <NavSection title="Faturamento">
-        <NavLink icon={AiOutlinePaperClip}>Anexar Documentos</NavLink>
+        <NavLink icon={AiOutlinePaperClip} href="/billing">Anexar Documentos</NavLink>
       </NavSection>
     </Stack>
   );
