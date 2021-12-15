@@ -1,7 +1,6 @@
 import { forwardRef, ForwardRefRenderFunction, ReactElement, useState } from 'react';
 import { FieldError } from 'react-hook-form';
 import { FormControl, FormLabel, InputGroup, InputLeftElement, InputRightElement, Input as FormInput, InputProps as FormInputProps, Icon, Tooltip } from '@chakra-ui/react';
-
 import { FiAlertTriangle } from "react-icons/fi";
 
 
@@ -15,13 +14,10 @@ interface InputProps extends FormInputProps {
 
 const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ name, label, fixedLabel, icon, error, ...rest }, ref) => {
   const [isFilled, setIsFilled] = useState(false);
-  /*const [value, setValue] = useState("");
 
-  function handleTextChange(text: string) {
-    setValue(text);
-
-    setIsFilled(text !== "" ? true : false);
-  }*/
+  function handleTextChange(value: string) {
+    setIsFilled(value !== "" ? true : false);
+  }
 
   return (
     <FormControl
@@ -61,8 +57,6 @@ const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ nam
         <FormInput
           id={name}
           name={name}
-          /*value={value}
-          onChange={(e) => handleTextChange(e.target.value)}*/
           {...rest}
           variant="filled"
           bg="transparent"
@@ -81,6 +75,7 @@ const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ nam
           }}
           errorBorderColor="primary.500"
           ref={ref}
+          onChange={(e) => handleTextChange(e.target.value)}
         />
         {error && (
           <InputRightElement fontSize="1.2rem">

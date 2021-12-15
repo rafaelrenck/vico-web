@@ -12,16 +12,16 @@ type SignInFormData = {
 }
 
 const SignInFormSchema = yup.object().shape({
-  username: yup.string().required("Usuário obrigatório"),
-  password: yup.string().required("Senha obrigatória"),
+  username: yup.string().required("Campo obrigatório"),
+  password: yup.string().required("Campo obrigatório"),
 });
 
 export function SignInForm() {
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm({
     resolver: yupResolver(SignInFormSchema),
   });
 
-  const handleSignIn: SubmitHandler<SignInFormData> =  (values) => {
+  const handleSignIn: SubmitHandler<SignInFormData> = (values) => {
 
   }
 
@@ -44,7 +44,7 @@ export function SignInForm() {
         icon={<Icon as={BiUser} />}
         w="14rem"
         {...register("username")}
-        error={formState.errors.username}
+        error={errors.username}
       />
       <Input
         type="password"
@@ -53,7 +53,7 @@ export function SignInForm() {
         icon={<Icon as={BiLockOpenAlt} />}
         w="14rem"
         {...register("password")}
-        error={formState.errors.password}
+        error={errors.password}
       />
       <IconButton
         aria-label="Login"
@@ -62,7 +62,7 @@ export function SignInForm() {
         colorScheme="primary"
         fontSize="1.5rem"
         isRound
-        isLoading={formState.isSubmitting}
+        isLoading={isSubmitting}
       />
     </Stack>
   );
