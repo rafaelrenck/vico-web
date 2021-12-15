@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Heading, Checkbox, Flex, IconButton, HStack, Stack, Spinner, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
 import { FaQuestion } from 'react-icons/fa';
 import { BiEraser } from "react-icons/bi";
@@ -11,8 +11,8 @@ import TableAppointments from '../../components/Attach/TableAppointments';
 export default function Attach() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(() => true);
-  const [invoice, setInvoice] = useState(() => "");
-  const [patient, setPatient] = useState(() => "");
+  const invoice = useRef<HTMLInputElement>(null);
+  const patient = useRef<HTMLInputElement>(null);
   const [filter, setFilter] = useState(() => ({
     month: new Date().toISOString().substring(0, 7),
     insurance: "13",
@@ -26,7 +26,7 @@ export default function Attach() {
   const [appointments, setAppointments] = useState(() => []);
 
   function handleMonthChange(month: string) {
-    setInvoice("");
+    invoice.current.value = "";
     setFilter({ ...filter, month: month, invoice: "" });
   }
 
@@ -43,27 +43,27 @@ export default function Attach() {
   }
 
   function handleInsuranceChange(insurance: string) {
-    setInvoice("");
+    invoice.current.value = "";
     setFilter({ ...filter, insurance: insurance, invoice: "" });
   }
 
   function handleInvoiceUpdate(event) {
     if (event.key === 'Enter') {
-      setPatient("")
+      patient.current.value = "";
       setFilter({ ...filter, invoice: event.target.value, amb: true, ext: true, int: true, patient: "" });
     }
   }
 
   function handlePatientUpdate(event) {
     if (event.key === 'Enter') {
-      setInvoice("");
+      invoice.current.value = "";
       setFilter({ ...filter, patient: event.target.value, invoice: "" });
     }
   }
 
   function handleCleanFilter() {
-    setInvoice("");
-    setPatient("");
+    invoice.current.value = "";
+    patient.current.value = "";
     setFilter({ ...filter, invoice: "", patient: "" });
   }
 
@@ -130,8 +130,7 @@ export default function Attach() {
             type="number"
             name="invoice"
             label="Remessa"
-            value={invoice}
-            onChange={(e) => setInvoice(e.target.value)}
+            ref={invoice}
             onKeyDown={handleInvoiceUpdate}
             fixedLabel
             w="16rem"
@@ -140,8 +139,7 @@ export default function Attach() {
             type="text"
             name="patient"
             label="Paciente"
-            value={patient}
-            onChange={(e) => setPatient(e.target.value)}
+            ref={patient}
             onKeyDown={handlePatientUpdate}
             fixedLabel
             w="100%"
@@ -171,7 +169,7 @@ export default function Attach() {
               <ModalHeader>Anexar documento</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                              
+
               </ModalBody>
             </ModalContent>
           </Modal>
