@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Heading, Checkbox, Flex, IconButton, HStack, Stack, Spinner, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
-import { FaQuestion } from 'react-icons/fa';
+import { useQuery } from 'react-query';
 import { BiEraser } from "react-icons/bi";
 
 import { Input } from "../../components/Form/Input";
@@ -9,6 +9,14 @@ import { Pagination } from "../../components/Pagination";
 import TableAppointments from '../../components/Attach/TableAppointments';
 
 export default function Attach() {
+  const healthInsurances = useQuery("healthInsurances", async () => {
+    const response = await fetch("http://localhost:3333/sigh/health_insurances");
+    const healthInsurances = await response.json();
+    return healthInsurances;
+  });
+
+  console.log(healthInsurances);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(() => true);
   const invoice = useRef<HTMLInputElement>(null);
@@ -22,7 +30,6 @@ export default function Attach() {
     invoice: "",
     patient: "",
   }));
-  const [insurances, setInsurances] = useState(() => []);
   const [appointments, setAppointments] = useState(() => []);
 
   function handleMonthChange(month: string) {
@@ -68,15 +75,6 @@ export default function Attach() {
   }
 
   useEffect(() => {
-    async function loadInsurances() {
-      const healthInsurances = await fetch("http://localhost:3333/sigh/health_insurances")
-        .then(response => response.json());
-      setInsurances(healthInsurances);
-    }
-    loadInsurances();
-  }, []);
-
-  useEffect(() => {
     async function loadAppointments() {
       const appointments = await fetch(`http://localhost:3333/sigh/appointments?insurance=${encodeURIComponent(filter.insurance)}&month=${encodeURIComponent(filter.month)}&amb=${encodeURIComponent(filter.amb)}&ext=${encodeURIComponent(filter.ext)}&int=${encodeURIComponent(filter.int)}&invoice=${encodeURIComponent(filter.invoice)}&patient=${encodeURIComponent(filter.patient)}`)
         .then(response => response.json());
@@ -93,19 +91,8 @@ export default function Attach() {
 
   return (
     <>
-      <Flex mb="4rem" alignItems="center" justifyContent="space-between">
-        <Heading size="lg" textTransform="uppercase">Anexar Documentos</Heading>
-        <IconButton
-          aria-label="Ajuda"
-          icon={<FaQuestion />}
-          colorScheme="transparent"
-          fontSize="1.2rem"
-          color="gray.600"
-          isRound
-          onClick={onOpen}
-        />
-      </Flex>
-      <Stack mb="2rem" flexDirection="column" spacing="2rem">
+      <Heading size="lg" textTransform="uppercase" mb="4rem">Anexar Documentos</Heading>
+      <Stack as="form" mb="2rem" flexDirection="column" spacing="2rem">
         <HStack w="full" spacing="2rem" bg="gray.800">
           <Input
             type="month"
@@ -120,9 +107,15 @@ export default function Attach() {
           <Checkbox colorScheme="primary" isChecked={filter.ext} onChange={(e) => handleTypeExtChange()}>EXT</Checkbox>
           <Checkbox colorScheme="primary" isChecked={filter.int} onChange={(e) => handleTypeIntChange()}>INT</Checkbox>
           <Select name="health_insurance" label="Convênio" onChange={(e) => handleInsuranceChange(e.target.value)}>
-            {insurances.map(insurance => (
-              <option key={insurance.id} value={insurance.id} selected={insurance.id == filter.insurance ? true : false}>{insurance.name}</option>
-            ))}
+            {healthInsurances.isLoading ? (
+              <option value={0} selected>Carregando...</option>
+            ) : (
+              <>
+                {healthInsurances.data.map(insurance => (
+                  <option key={insurance.id} value={insurance.id} selected={insurance.id == filter.insurance ? true : false}>{insurance.name}</option>
+                ))}
+              </>
+            )}
           </Select>
         </HStack>
         <HStack w="full" spacing="2rem" bg="gray.800">

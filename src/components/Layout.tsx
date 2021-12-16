@@ -34,14 +34,14 @@ export function Layout({ children }: RootProps) {
             flex="1"
             direction="column"
             align="stretch"
-            justify="flex-start"            
-            borderRadius="18px"
+            justify="flex-start"
+            borderRadius="1.5rem"
             bg="gray.800"
             p="2rem"
           >
             { children }
           </Flex>
-        </Flex>        
+        </Flex>
       </Body>
       <Footer>
         &copy; 2021 - Hospital São Vicente de Paulo
