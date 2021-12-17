@@ -1,11 +1,10 @@
-import { memo } from 'react';
 import { Table, Thead, Tr, Th, Tbody, Td, Text, Flex, IconButton, HStack, Icon, Stack } from '@chakra-ui/react';
 import { format, parseISO } from 'date-fns';
 import { BiFile, BiSpreadsheet, BiBone, BiVial, BiTime } from "react-icons/bi";
 import { FaSignature } from 'react-icons/fa';
 import { AiOutlinePaperClip } from "react-icons/ai";
 
-function TableAppointments({ appointments, ...rest }) {
+export default function TableAppointments({ appointments, ...rest }) {
   return (
     <Table colorScheme="whiteAlpha" appointments={appointments}>
       <Thead>
@@ -109,8 +108,5 @@ function TableAppointments({ appointments, ...rest }) {
         })}
       </Tbody>
     </Table>
-
   );
 }
-
-export default memo(TableAppointments);

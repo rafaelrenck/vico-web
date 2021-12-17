@@ -1,24 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Heading, Checkbox, Flex, IconButton, HStack, Stack, Spinner, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
-import { useQuery } from 'react-query';
 import { BiEraser } from "react-icons/bi";
 
 import { Input } from "../../components/Form/Input";
 import { Select } from "../../components/Form/Select";
 import { Pagination } from "../../components/Pagination";
 import TableAppointments from '../../components/Attach/TableAppointments';
+import { useHealthInsurances } from '../../services/hooks/useHealthInsurances';
+import { useAppointments } from '../../services/hooks/useAppointments';
 
 export default function Attach() {
-  const healthInsurances = useQuery("healthInsurances", async () => {
-    const response = await fetch("http://localhost:3333/sigh/health_insurances");
-    const healthInsurances = await response.json();
-    return healthInsurances;
-  });
-
-  console.log(healthInsurances);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [loading, setLoading] = useState(() => true);
   const invoice = useRef<HTMLInputElement>(null);
   const patient = useRef<HTMLInputElement>(null);
   const [filter, setFilter] = useState(() => ({
@@ -30,7 +22,8 @@ export default function Attach() {
     invoice: "",
     patient: "",
   }));
-  const [appointments, setAppointments] = useState(() => []);
+  const healthInsurances = useHealthInsurances();
+  const appointments = useAppointments(filter);
 
   function handleMonthChange(month: string) {
     invoice.current.value = "";
@@ -51,7 +44,8 @@ export default function Attach() {
 
   function handleInsuranceChange(insurance: string) {
     invoice.current.value = "";
-    setFilter({ ...filter, insurance: insurance, invoice: "" });
+    setFilter(() => ({ ...filter, insurance: insurance, invoice: "" }));
+    appointments.refetch;
   }
 
   function handleInvoiceUpdate(event) {
@@ -74,24 +68,14 @@ export default function Attach() {
     setFilter({ ...filter, invoice: "", patient: "" });
   }
 
-  useEffect(() => {
-    async function loadAppointments() {
-      const appointments = await fetch(`http://localhost:3333/sigh/appointments?insurance=${encodeURIComponent(filter.insurance)}&month=${encodeURIComponent(filter.month)}&amb=${encodeURIComponent(filter.amb)}&ext=${encodeURIComponent(filter.ext)}&int=${encodeURIComponent(filter.int)}&invoice=${encodeURIComponent(filter.invoice)}&patient=${encodeURIComponent(filter.patient)}`)
-        .then(response => response.json());
-      setAppointments(appointments);
-      setLoading(false);
-    }
-    loadAppointments();
-
-    return () => {
-      setAppointments([]);
-      setLoading(true);
-    };
-  }, [filter]);
-
   return (
     <>
-      <Heading size="lg" textTransform="uppercase" mb="4rem">Anexar Documentos</Heading>
+      <Heading size="lg" textTransform="uppercase" mb="4rem">
+        Anexar Documentos
+        { !healthInsurances.isLoading && healthInsurances.isFetching && (
+          <Spinner size="sm" ml="2rem" />
+        )}
+      </Heading>
       <Stack as="form" mb="2rem" flexDirection="column" spacing="2rem">
         <HStack w="full" spacing="2rem" bg="gray.800">
           <Input
@@ -147,13 +131,13 @@ export default function Attach() {
           />
         </HStack>
       </Stack>
-      {loading ? (
+      {appointments.isLoading ? (
         <Flex justify="center" mt="5rem">
           <Spinner size="xl" />
         </Flex>
       ) : (
         <>
-          <TableAppointments appointments={appointments} />
+          <TableAppointments appointments={appointments.data} />
           <Modal isCentered motionPreset='slideInBottom' isOpen={isOpen} onClose={onClose} size="xl">
             <ModalOverlay />
             <ModalContent
@@ -168,7 +152,11 @@ export default function Attach() {
           </Modal>
         </>
       )}
-      <Pagination />
+      <Pagination
+        totalCountOfRegisters={200}
+        currentPage={16}
+        onPageChange={() => {}}
+      />
     </>
   );
 }
