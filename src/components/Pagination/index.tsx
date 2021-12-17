@@ -24,7 +24,7 @@ export function Pagination({
   onPageChange
 }: PaginationProps) {
   const lastPage = Math.ceil(totalCountOfRegisters / registersPerPage);
-  
+
   const previousPages = currentPage > 1
     ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
     : [];
@@ -43,31 +43,31 @@ export function Pagination({
     >
       <Box flex="1">
         <Text textAlign="right">
-          0 - 10 de 100
+          {(currentPage - 1) * 10 + 1} - {Math.min((currentPage - 1) * 10 + 10, totalCountOfRegisters)} de {totalCountOfRegisters}
         </Text>
       </Box>
       <Stack direction="row" spacing="0.5rem">
-        {currentPage > (siblingsCount + 1) && 
+        {currentPage > (siblingsCount + 1) &&
           <>
-            <PaginationItem page={1} />
+            <PaginationItem page={1} onPageChange={onPageChange} />
             {currentPage > (siblingsCount + 2) &&
               <Text color="gray.300" width="1.5rem" textAlign="center">...</Text>
             }
           </>
         }
-        {previousPages.length > 0 && previousPages.map(page => 
-          <PaginationItem key={page} page={page} />
+        {previousPages.length > 0 && previousPages.map(page =>
+          <PaginationItem key={page} page={page} onPageChange={onPageChange} />
         )}
-        <PaginationItem page={currentPage} isCurrent />
-        {nextPages.length > 0 && nextPages.map(page => 
-          <PaginationItem key={page} page={page} />
+        <PaginationItem page={currentPage} onPageChange={onPageChange} isCurrent />
+        {nextPages.length > 0 && nextPages.map(page =>
+          <PaginationItem key={page} page={page} onPageChange={onPageChange} />
         )}
         {lastPage > (currentPage + siblingsCount) &&
           <>
             {lastPage > (currentPage + siblingsCount + 1) &&
               <Text color="gray.300" width="1.5rem" textAlign="center">...</Text>
             }
-            <PaginationItem page={lastPage} />
+            <PaginationItem page={lastPage} onPageChange={onPageChange} />
           </>
         }
       </Stack>

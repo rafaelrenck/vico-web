@@ -1,6 +1,7 @@
 
-import { Heading, Text, VStack, HStack } from '@chakra-ui/react';
+import { Heading, Text, VStack, HStack, Box } from '@chakra-ui/react';
 
+import { MasonryGrid } from '../components/MasonryGrid';
 
 export default function Extensions() {
   const extensions = [
@@ -90,6 +91,22 @@ export default function Extensions() {
   return (
     <>
       <Heading size="lg" textTransform="uppercase" mb="4rem">Ramais</Heading>
+      <MasonryGrid columns={2}>
+        <Box>1</Box>
+        <Box>2</Box>
+        <Box>
+          <Box>3</Box>
+          <Box>3</Box>
+          <Box>3</Box>
+          <Box>3</Box>
+          <Box>3</Box>
+          <Box>3</Box>
+          <Box>3</Box>
+        </Box>
+        <Box>4</Box>
+        <Box column="2">5</Box>
+      </MasonryGrid>
+      {/*
       <VStack
         spacing="2rem"
         alignItems="stretch"
@@ -109,6 +126,7 @@ export default function Extensions() {
           </VStack>
         ))}
       </VStack>
+            */}
     </>
   );
 }

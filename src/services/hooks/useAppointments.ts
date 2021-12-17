@@ -2,6 +2,16 @@ import { useQuery } from 'react-query';
 
 import { api } from '../../services/api';
 
+type Filter = {
+  month: string,
+  insurance: string,
+  amb: boolean,
+  ext: boolean,
+  int: boolean,
+  invoice: string,
+  patient: string,
+}
+
 type Appointment = {
   id_fia: string;
   date: string;
@@ -12,9 +22,28 @@ type Appointment = {
   date_of_birth: string;
 }
 
-export function useAppointments(filter) {
-  return useQuery<Appointment[]>("appointments", async () => {
-    const { data } = await api.get(`sigh/appointments?insurance=${encodeURIComponent(filter.insurance)}&month=${encodeURIComponent(filter.month)}&amb=${encodeURIComponent(filter.amb)}&ext=${encodeURIComponent(filter.ext)}&int=${encodeURIComponent(filter.int)}&invoice=${encodeURIComponent(filter.invoice)}&patient=${encodeURIComponent(filter.patient)}`);
-    return data;
+type getAppointmentsResponse = {
+  appointments: Appointment[];
+  totalCount: number;
+}
+
+async function getAppointments(currentPage: number, filter: Filter): Promise<getAppointmentsResponse> {
+  const { data, headers } = await api.get("sigh/appointments", {
+    params: {
+      page: currentPage,
+      insurance: filter.insurance,
+      month: filter.month,
+      amb: filter.amb,
+      ext: filter.ext,
+      int: filter.int,
+      invoice: filter.invoice,
+      patient: filter.patient,
+    }
   });
+
+  return { appointments: data.appointments, totalCount: data.totalCount };
+}
+
+export function useAppointments(currentPage: number, filter: Filter) {
+  return useQuery(["appointments", { currentPage, filter }], () => getAppointments(currentPage, filter));
 }

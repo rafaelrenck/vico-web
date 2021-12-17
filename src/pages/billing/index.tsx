@@ -15,41 +15,48 @@ export default function Attach() {
   const patient = useRef<HTMLInputElement>(null);
   const [filter, setFilter] = useState(() => ({
     month: new Date().toISOString().substring(0, 7),
-    insurance: "13",
+    insurance: "29",
     amb: true,
     ext: false,
     int: false,
     invoice: "",
     patient: "",
   }));
+  const [currentPage, setCurrentPage] = useState(1);
   const healthInsurances = useHealthInsurances();
-  const appointments = useAppointments(filter);
+  const appointments = useAppointments(currentPage, filter);
 
   function handleMonthChange(month: string) {
     invoice.current.value = "";
+    setCurrentPage(1);
     setFilter({ ...filter, month: month, invoice: "" });
   }
 
   function handleTypeAmbChange() {
+    setCurrentPage(1);
     setFilter({ ...filter, amb: !filter.amb });
   }
 
   function handleTypeExtChange() {
+    setCurrentPage(1);
     setFilter({ ...filter, ext: !filter.ext });
   }
 
   function handleTypeIntChange() {
+    setCurrentPage(1);
     setFilter({ ...filter, int: !filter.int });
   }
 
   function handleInsuranceChange(insurance: string) {
     invoice.current.value = "";
+    setCurrentPage(1);
     setFilter(() => ({ ...filter, insurance: insurance, invoice: "" }));
   }
 
   function handleInvoiceUpdate(event) {
     if (event.key === 'Enter') {
       patient.current.value = "";
+      setCurrentPage(1);
       setFilter({ ...filter, invoice: event.target.value, amb: true, ext: true, int: true, patient: "" });
     }
   }
@@ -57,6 +64,7 @@ export default function Attach() {
   function handlePatientUpdate(event) {
     if (event.key === 'Enter') {
       invoice.current.value = "";
+      setCurrentPage(1);
       setFilter({ ...filter, patient: event.target.value, invoice: "" });
     }
   }
@@ -64,6 +72,7 @@ export default function Attach() {
   function handleCleanFilter() {
     invoice.current.value = "";
     patient.current.value = "";
+    setCurrentPage(1);
     setFilter({ ...filter, invoice: "", patient: "" });
   }
 
@@ -136,7 +145,7 @@ export default function Attach() {
         </Flex>
       ) : (
         <>
-          <TableAppointments appointments={appointments.data} />
+          <TableAppointments appointments={appointments.data.appointments} />
           <Modal isCentered motionPreset='slideInBottom' isOpen={isOpen} onClose={onClose} size="xl">
             <ModalOverlay />
             <ModalContent
@@ -149,13 +158,14 @@ export default function Attach() {
               </ModalBody>
             </ModalContent>
           </Modal>
+          <Pagination
+            totalCountOfRegisters={appointments.data.totalCount}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
         </>
       )}
-      <Pagination
-        totalCountOfRegisters={200}
-        currentPage={16}
-        onPageChange={() => {}}
-      />
+
     </>
   );
 }
