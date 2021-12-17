@@ -45,7 +45,6 @@ export default function Attach() {
   function handleInsuranceChange(insurance: string) {
     invoice.current.value = "";
     setFilter(() => ({ ...filter, insurance: insurance, invoice: "" }));
-    appointments.refetch;
   }
 
   function handleInvoiceUpdate(event) {
