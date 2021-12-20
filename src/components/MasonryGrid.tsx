@@ -1,5 +1,6 @@
-import { Children, cloneElement, ReactElement } from 'react';
-import { HStack, VStack, Text } from '@chakra-ui/react';
+import { Children, cloneElement, createElement, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import { HStack, VStack, Box } from '@chakra-ui/react';
+import ReactDOMServer from "react-dom/server";
 
 interface MasonryGridProps {
   columns: number;
@@ -7,14 +8,28 @@ interface MasonryGridProps {
 }
 
 export function MasonryGrid({ columns, children, ...rest }: MasonryGridProps) {
-  const columnsCount = Array.apply(null, Array(columns));
+  const columnsContent = useState(Array.apply(0, Array(columns)));
+  const columnRef = useRef(new Array);
+
+  useEffect(() => {
+    Children.map(children, child => {
+      const min = columnRef.current.indexOf(
+        columnRef.current.reduce((prev, curr) => {
+          return prev.clientHeight > curr.clientHeight ? curr : prev;
+        }, {clientHeight: 9999999})
+      )
+      columnRef.current[min].innerHTML += ReactDOMServer.renderToString(child);
+    });
+  });
+
 
   return (
     <HStack
       spacing="2rem"
+      alignItems="flex-start"
     >
-      {columnsCount.map((_, index) => (
-        <VStack key={index} flex="1" alignItems="flex-start" justifyContent="flex-start" spacing="2rem"><Text>{index}</Text></VStack>
+      {columnsContent.map((_, index) => (
+        <VStack key={index} flex="1" alignItems="flex-start" justifyContent="flex-start" spacing="2rem" ref={(element) => columnRef.current[index] = element}><Box></Box></VStack>
       ))}
     </HStack>
   );

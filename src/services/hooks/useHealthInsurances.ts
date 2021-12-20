@@ -13,5 +13,7 @@ async function getHealthInsurances(): Promise<HealthInsurance[]> {
 }
 
 export function useHealthInsurances() {
-  return useQuery("healthInsurances", getHealthInsurances);
+  return useQuery("healthInsurances", getHealthInsurances, {
+    staleTime: 1000 * 60 * 60,
+  });
 }

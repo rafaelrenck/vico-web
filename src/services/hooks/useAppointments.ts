@@ -45,5 +45,7 @@ async function getAppointments(currentPage: number, filter: Filter): Promise<get
 }
 
 export function useAppointments(currentPage: number, filter: Filter) {
-  return useQuery(["appointments", { currentPage, filter }], () => getAppointments(currentPage, filter));
+  return useQuery(["appointments", { currentPage, filter }], () => getAppointments(currentPage, filter), {
+    staleTime: 1000 * 60 * 10,
+  });
 }

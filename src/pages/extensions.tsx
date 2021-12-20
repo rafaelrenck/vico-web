@@ -6,6 +6,17 @@ import { MasonryGrid } from '../components/MasonryGrid';
 export default function Extensions() {
   const extensions = [
     {
+      section: "Recepções",
+      extensions: [
+        { ramal: 4035, locate: "CDI/Raio-X" },
+        { ramal: 4040, locate: "Convênios/Internação" },
+        { ramal: 4020, locate: "Emergência" },
+        { ramal: 4014, locate: "Policlínica" },
+        { ramal: 4015, locate: "Portaria" },
+        { ramal: 4050, locate: "UTI" },
+      ],
+    },
+    {
       section: "Assistência ao paciente",
       extensions: [
         { ramal: 4038, locate: "1º Andar" },
@@ -28,36 +39,6 @@ export default function Extensions() {
         { ramal: 4041, locate: "UTI 1" },
         { ramal: 4042, locate: "UTI 1" },
         { ramal: 4061, locate: "UTI 2" },
-      ],
-    },
-    {
-      section: "Recepções",
-      extensions: [
-        { ramal: 4035, locate: "CDI/Raio-X" },
-        { ramal: 4040, locate: "Convênios/Internação" },
-        { ramal: 4020, locate: "Emergência" },
-        { ramal: 4014, locate: "Policlínica" },
-        { ramal: 4015, locate: "Portaria" },
-        { ramal: 4050, locate: "UTI" },
-      ],
-    },
-    {
-      section: "Apoio",
-      extensions: [
-        { ramal: 4026, locate: "Almoxarifado" },
-        { ramal: 4028, locate: "Banco de Sangue" },
-        { ramal: 4010, locate: "CCIH" },
-        { ramal: 4054, locate: "CME 1º Andar" },
-        { ramal: 4051, locate: "CME 2º Andar" },
-        { ramal: 4056, locate: "Copa 1º Andar" },
-        { ramal: 4057, locate: "Copa 3º Andar" },
-        { ramal: 4069, locate: "Costura e Lavanderia" },
-        { ramal: 4011, locate: "Cozinha" },
-        { ramal: 4024, locate: "Farmácia" },
-        { ramal: 4066, locate: "Quarto dos médicos" },
-        { ramal: 4058, locate: "Quarto dos obstetras" },
-        { ramal: 4071, locate: "Quarto dos pediatras" },
-        { ramal: 4047, locate: "Radiologia" },
       ],
     },
     {
@@ -86,25 +67,45 @@ export default function Extensions() {
         { ramal: 4019, locate: "RH/Departamento Pessoal", persons: ["Josete", "Juciane"] },
       ],
     },
+    {
+      section: "Apoio",
+      extensions: [
+        { ramal: 4026, locate: "Almoxarifado" },
+        { ramal: 4028, locate: "Banco de Sangue" },
+        { ramal: 4010, locate: "CCIH" },
+        { ramal: 4054, locate: "CME 1º Andar" },
+        { ramal: 4051, locate: "CME 2º Andar" },
+        { ramal: 4056, locate: "Copa 1º Andar" },
+        { ramal: 4057, locate: "Copa 3º Andar" },
+        { ramal: 4069, locate: "Costura e Lavanderia" },
+        { ramal: 4011, locate: "Cozinha" },
+        { ramal: 4024, locate: "Farmácia" },
+        { ramal: 4066, locate: "Quarto dos médicos" },
+        { ramal: 4058, locate: "Quarto dos obstetras" },
+        { ramal: 4071, locate: "Quarto dos pediatras" },
+        { ramal: 4047, locate: "Radiologia" },
+      ],
+    },
   ]
 
   return (
     <>
       <Heading size="lg" textTransform="uppercase" mb="4rem">Ramais</Heading>
-      <MasonryGrid columns={2}>
-        <Box>1</Box>
-        <Box>2</Box>
-        <Box>
-          <Box>3</Box>
-          <Box>3</Box>
-          <Box>3</Box>
-          <Box>3</Box>
-          <Box>3</Box>
-          <Box>3</Box>
-          <Box>3</Box>
-        </Box>
-        <Box>4</Box>
-        <Box column="2">5</Box>
+      <MasonryGrid columns={3}>
+        {extensions.map((extensionSection) => (
+          <VStack key={extensionSection.section} alignItems="flex-start">
+            <Text fontWeight="semibold" color="gray.400" fontSize="small" textTransform="uppercase">
+              {extensionSection.section}
+            </Text>
+            {extensionSection.extensions.map((extension) => (
+              <HStack key={extension.ramal}>
+                <Text>
+                  {extension.ramal}
+                </Text>
+              </HStack>
+            ))}
+          </VStack>
+        ))}
       </MasonryGrid>
       {/*
       <VStack
