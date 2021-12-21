@@ -98,13 +98,13 @@ export default function Attach() {
           <Checkbox colorScheme="primary" isChecked={filter.amb} onChange={(e) => handleTypeAmbChange()}>AMB</Checkbox>
           <Checkbox colorScheme="primary" isChecked={filter.ext} onChange={(e) => handleTypeExtChange()}>EXT</Checkbox>
           <Checkbox colorScheme="primary" isChecked={filter.int} onChange={(e) => handleTypeIntChange()}>INT</Checkbox>
-          <Select name="health_insurance" label="Convênio" onChange={(e) => handleInsuranceChange(e.target.value)}>
+          <Select name="health_insurance" label="Convênio" onChange={(e) => handleInsuranceChange(e.target.value)} value={filter.insurance}>
             {healthInsurances.isLoading ? (
-              <option value={0} selected>Carregando...</option>
+              <option value={0}>Carregando...</option>
             ) : (
               <>
                 {healthInsurances.data.map(insurance => (
-                  <option key={insurance.id} value={insurance.id} selected={insurance.id == filter.insurance ? true : false}>{insurance.name}</option>
+                  <option key={insurance.id} value={insurance.id}>{insurance.name}</option>
                 ))}
               </>
             )}

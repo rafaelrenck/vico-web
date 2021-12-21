@@ -14,6 +14,7 @@ export function Select({ name, label, ...rest }: SelectProps) {
     >
       {!!label && (
         <FormLabel
+          id={`label${name}`}
           htmlFor={name}
           position="absolute"
           top="-11px"

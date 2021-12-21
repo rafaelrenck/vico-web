@@ -28,6 +28,7 @@ const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ nam
     >
       {!!label && (
         <FormLabel
+          id={`label${name}`}
           htmlFor={name}
           position="absolute"
           top={ fixedLabel || isFilled ? "-11px" : "6px" }

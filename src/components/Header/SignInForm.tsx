@@ -5,6 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { BiCheck, BiUser, BiLockOpenAlt } from "react-icons/bi";
 
 import { Input } from "../Form/Input";
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
 type SignInFormData = {
   username: string;
@@ -21,8 +23,15 @@ export function SignInForm() {
     resolver: yupResolver(SignInFormSchema),
   });
 
-  const handleSignIn: SubmitHandler<SignInFormData> = (values) => {
+  const { signIn } = useContext(AuthContext);
 
+  const handleSignIn: SubmitHandler<SignInFormData> = async ({ username, password }) => {
+    const credentials = {
+      username,
+      password,
+    }
+
+    await signIn(credentials);
   }
 
   return (
