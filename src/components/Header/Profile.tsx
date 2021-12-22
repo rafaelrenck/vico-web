@@ -1,8 +1,12 @@
-import { Flex, Box, Text, Avatar, IconButton, HStack } from '@chakra-ui/react';
+import { useContext } from 'react';
+import { Text, Avatar, IconButton, HStack } from '@chakra-ui/react';
 import { BiUser, BiBell, BiCog, BiPowerOff } from "react-icons/bi";
 
+import { AuthContext } from '../../contexts/AuthContext';
 
 export function Profile() {
+  const { user } = useContext(AuthContext);
+
   return (
     <HStack
       spacing="3rem"
@@ -13,7 +17,7 @@ export function Profile() {
           bg="gray.700"
         />
         <Text fontSize="1.2rem" fontWeight="semibold">
-          Rafael Renck
+          {user.shortName}
         </Text>
       </HStack>
       <HStack spacing="1rem" pl="2rem" borderLeftWidth="1px" borderColor="gray.700">

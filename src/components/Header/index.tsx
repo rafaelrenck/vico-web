@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { HStack, Flex, Box, IconButton, Icon, useBreakpointValue } from '@chakra-ui/react';
 
 import { Logo } from "./Logo";
@@ -6,10 +6,10 @@ import { SignInForm } from "./SignInForm";
 import { Profile } from "./Profile";
 import { useSidebarDrawer } from '../../contexts/SidebarDrawerContext';
 import { RiMenuLine } from 'react-icons/ri';
-
+import { AuthContext } from '../../contexts/AuthContext';
 
 export function Header() {
-  const [logged, setLogged] = useState(false);
+  const { isAuthenticated } = useContext(AuthContext);
   const { onOpen } = useSidebarDrawer();
 
   const showSidebarDrawer = useBreakpointValue({
@@ -56,7 +56,7 @@ export function Header() {
       </HStack>
 
       <Box>
-        {logged ? (
+        {isAuthenticated ? (
           <Profile />
         ) : (
           <SignInForm />

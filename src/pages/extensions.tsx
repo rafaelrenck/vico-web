@@ -99,8 +99,11 @@ export default function Extensions() {
             </Text>
             {extensionSection.extensions.map((extension) => (
               <HStack key={extension.ramal}>
-                <Text>
+                <Text w="3rem">
                   {extension.ramal}
+                </Text>
+                <Text>
+                  {extension.locate}
                 </Text>
               </HStack>
             ))}
