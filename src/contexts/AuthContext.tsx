@@ -1,11 +1,17 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { setCookie, parseCookies } from "nookies";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
 
 import { api } from "../services/api";
+
+type Group = {
+  id: string;
+  group: string;
+}
 
 type User = {
   fullName: string;
   shortName: string;
+  groups: Group[];
 }
 
 type SignInCredentials = {
@@ -15,6 +21,7 @@ type SignInCredentials = {
 
 type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<void>;
+  signOut(): Promise<void>;
   user: User;
   isAuthenticated: boolean;
 }
@@ -26,17 +33,19 @@ type AuthProviderProps = {
 export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>(null);
   const isAuthenticated = !!user;
 
   useEffect(() => {
     const { "vico-token": token } = parseCookies();
 
-    /* if (token) {
+    if (token) {
       api.get("/me").then(response => {
-        console.log(response);
-      })
-    } */
+        setUser(response.data);
+      }).catch(() => {
+        destroyCookie(undefined, "vico-token");
+      });
+    }
   }, []);
 
   async function signIn({ username, password }: SignInCredentials) {
@@ -46,21 +55,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password,
       });
 
-      const { token, fullName, shortName } = response.data;
+      const { token, user } = response.data;
 
-      setUser({ fullName, shortName });
+      setUser(user);
 
       setCookie(undefined, "vico-token", token, {
         maxAge: 60 * 60 * 24 * 10,
         path: "/",
       });
+
+      api.defaults.headers['Authorization'] = `Bearer ${token}`;
+
     } catch (err) {
-      console.log(err);
+
+
     }
   }
 
+  async function signOut() {
+    setUser(null);
+    destroyCookie(undefined, "vico-token");
+    api.defaults.headers['Authorization'] = null;
+  }
+
   return (
-    <AuthContext.Provider value={{ signIn, user, isAuthenticated }}>
+    <AuthContext.Provider value={{ signIn, signOut, user, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
