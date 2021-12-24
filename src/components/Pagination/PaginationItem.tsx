@@ -1,7 +1,7 @@
-import { Stack, Button, Box, Text } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
 
-interface PaginationItemProps {
+type PaginationItemProps = {
   page: number;
   isCurrent?: boolean;
   onPageChange: (page: number) => void;

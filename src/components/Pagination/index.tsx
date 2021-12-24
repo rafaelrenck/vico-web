@@ -2,7 +2,7 @@ import { Stack, Box, Text } from '@chakra-ui/react';
 
 import { PaginationItem } from './PaginationItem';
 
-interface PaginationProps {
+type PaginationProps = {
   totalCountOfRegisters: number;
   registersPerPage?: number;
   currentPage?: number;

@@ -2,7 +2,7 @@ import React, { Children, ReactElement, useEffect, useRef, useState } from 'reac
 import { HStack, VStack, Box } from '@chakra-ui/react';
 import ReactDOMServer from "react-dom/server";
 
-interface MasonryGridProps {
+type MasonryGridProps = {
   columns: number;
   children: ReactElement[];
 }
