@@ -7,6 +7,7 @@ import { NavSection } from './NavSection';
 import { NavLink } from './NavLink';
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { RestrictedSection } from "../RestrictedSection";
 
 const AnimatiIcon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" viewBox="0 0 32 32" height="1.2rem" width="2.2rem"><path fillRule="evenodd" clipRule="evenodd" fill="#FFFFFF" d="M7.181 30.809c-1.367 0-2.735.008-4.103-.002-2.647-.021-3.541-1.438-2.366-3.762C4.113 20.326 7.518 13.611 10.92 6.893c.449-.889.877-1.789 1.33-2.676.231-.453.36-1.011 1.038-1.035.714-.023 1.013.473 1.272.997 1.605 3.222 3.071 6.524 4.846 9.648 1.126 1.978.996 3.571-.096 5.487-1.836 3.225-3.444 6.578-5.097 9.902-.559 1.126-1.36 1.603-2.615 1.603-1.47 0-2.944-.01-4.417-.01z"/><path fillRule="evenodd" clipRule="evenodd" fill="#FFFFFF" d="M31.84 12.173c.047 6.134-4.943 11.23-10.836 11.142-1.27-.02-1.484-.376-.883-1.457.683-1.232 1.254-2.529 1.931-3.768.666-1.221.581-2.349-.054-3.576-1.874-3.631-3.645-7.314-5.53-10.939-.573-1.101-.316-1.509.811-1.878C24.457-.666 31.781 4.581 31.84 12.173z"/></svg>
@@ -27,11 +28,11 @@ export function SidebarNav() {
         <NavLink icon={FontanaIcon} href="http://laudos.fontanalaboratorioclinico.com.br/webscola/">Laboratório Fontana</NavLink>
         <NavLink icon={BiBox} href="/repository">Repositório de Documentos</NavLink>
       </NavSection>
-      { isAuthenticated && user.groups.filter(group => group.group === "Faturamento") && (
+      <RestrictedSection group="Faturamento">
         <NavSection title="Faturamento">
           <NavLink icon={AiOutlinePaperClip} href="/billing">Anexar Documentos</NavLink>
         </NavSection>
-      )}
+      </RestrictedSection>
     </Stack>
   );
 }

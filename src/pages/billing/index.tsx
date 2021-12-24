@@ -8,6 +8,7 @@ import { Pagination } from "../../components/Pagination";
 import TableAppointments from '../../components/Attach/TableAppointments';
 import { useHealthInsurances } from '../../services/hooks/useHealthInsurances';
 import { useAppointments } from '../../services/hooks/useAppointments';
+import { RestrictedPage } from '../../components/RestrictedPage';
 
 export default function Attach() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -77,7 +78,7 @@ export default function Attach() {
   }
 
   return (
-    <>
+    <RestrictedPage group="Faturamento">
       <Heading size="lg" textTransform="uppercase" mb="4rem">
         Anexar Documentos
         { !healthInsurances.isLoading && healthInsurances.isFetching && (
@@ -165,7 +166,6 @@ export default function Attach() {
           />
         </>
       )}
-
-    </>
+    </RestrictedPage>
   );
 }

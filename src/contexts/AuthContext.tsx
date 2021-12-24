@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
+import Router from "next/router";
 
 import { api } from "../services/api";
 
@@ -73,6 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
+    Router.push("/");
     setUser(null);
     destroyCookie(undefined, "vico-token");
     api.defaults.headers['Authorization'] = null;

@@ -6,8 +6,7 @@ import { Body } from './Body';
 import { Sidebar } from './Sidebar';
 import { Footer } from './Footer';
 
-
-interface RootProps {
+type RootProps = {
   children?: ReactNode;
 }
 
@@ -39,7 +38,7 @@ export function Layout({ children }: RootProps) {
             bg="gray.800"
             p="2rem"
           >
-            { children }
+            {children}
           </Flex>
         </Flex>
       </Body>

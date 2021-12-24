@@ -12,7 +12,7 @@ interface InputProps extends FormInputProps {
   error?: FieldError;
 }
 
-const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ name, label, fixedLabel, icon, error, ...rest }, ref) => {
+const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ onChange, name, label, fixedLabel, icon, error, ...rest }, ref) => {
   const [isFilled, setIsFilled] = useState(false);
 
   function handleTextChange(value: string) {
@@ -76,7 +76,10 @@ const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ nam
           }}
           errorBorderColor="primary.500"
           ref={ref}
-          onChange={(e) => handleTextChange(e.target.value)}
+          onChange={(e) => {
+            onChange(e);
+            setIsFilled(e.target.value !== "" ? true : false)
+          }}
         />
         {error && (
           <InputRightElement fontSize="1.2rem">
