@@ -3,6 +3,7 @@ import { format, parseISO } from 'date-fns';
 import { BiFile, BiSpreadsheet, BiBone, BiVial, BiTime } from "react-icons/bi";
 import { FaSignature } from 'react-icons/fa';
 import { AiOutlinePaperClip } from "react-icons/ai";
+import { IconAttachedFile } from './IconAttachedFile';
 
 export default function TableAppointments({ appointments, ...rest }) {
   return (
@@ -68,13 +69,7 @@ export default function TableAppointments({ appointments, ...rest }) {
                 />
               </Td>
               <Td textAlign="center" px="0">
-                <IconButton
-                  aria-label="Enviar arquivo"
-                  icon={<FaSignature />}
-                  colorScheme="black"
-                  fontSize="1.2rem"
-                  isRound
-                />
+                <IconAttachedFile fia={appointment.id_fia} />
               </Td>
               <Td textAlign="center" px="0">
                 <IconButton
