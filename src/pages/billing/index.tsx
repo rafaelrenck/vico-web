@@ -1,17 +1,32 @@
-import React, { useState, useRef } from 'react';
-import { Heading, Checkbox, Flex, IconButton, HStack, Stack, Spinner, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
+import React, { useState, useRef } from "react";
+import {
+  Heading,
+  Checkbox,
+  Flex,
+  IconButton,
+  HStack,
+  Stack,
+  Spinner,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+} from "@chakra-ui/react";
 import { BiEraser } from "react-icons/bi";
 
 import { Input } from "../../components/Form/Input";
 import { Select } from "../../components/Form/Select";
 import { Pagination } from "../../components/Pagination";
-import TableAppointments from '../../components/Attach/TableAppointments';
-import { useHealthInsurances } from '../../services/hooks/useHealthInsurances';
-import { useAppointments } from '../../services/hooks/useAppointments';
-import { RestrictedPage } from '../../components/RestrictedPage';
+import TableAppointments from "../../components/Attach/TableAppointments";
+import { useHealthInsurances } from "../../services/hooks/useHealthInsurances";
+import { useAppointments } from "../../services/hooks/useAppointments";
+import { RestrictedPage } from "../../components/RestrictedPage";
 
 export default function Attach() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose } = useDisclosure();
   const invoice = useRef<HTMLInputElement>(null);
   const patient = useRef<HTMLInputElement>(null);
   const [filter, setFilter] = useState(() => ({
@@ -55,15 +70,22 @@ export default function Attach() {
   }
 
   function handleInvoiceUpdate(event) {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       patient.current.value = "";
       setCurrentPage(1);
-      setFilter({ ...filter, invoice: event.target.value, amb: true, ext: true, int: true, patient: "" });
+      setFilter({
+        ...filter,
+        invoice: event.target.value,
+        amb: true,
+        ext: true,
+        int: true,
+        patient: "",
+      });
     }
   }
 
   function handlePatientUpdate(event) {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       invoice.current.value = "";
       setCurrentPage(1);
       setFilter({ ...filter, patient: event.target.value, invoice: "" });
@@ -81,7 +103,7 @@ export default function Attach() {
     <RestrictedPage group="Faturamento">
       <Heading size="lg" textTransform="uppercase" mb="4rem">
         Anexar Documentos
-        { !healthInsurances.isLoading && healthInsurances.isFetching && (
+        {!healthInsurances.isLoading && healthInsurances.isFetching && (
           <Spinner size="sm" ml="2rem" />
         )}
       </Heading>
@@ -96,16 +118,41 @@ export default function Attach() {
             fixedLabel
             w="16rem"
           />
-          <Checkbox colorScheme="primary" isChecked={filter.amb} onChange={(e) => handleTypeAmbChange()}>AMB</Checkbox>
-          <Checkbox colorScheme="primary" isChecked={filter.ext} onChange={(e) => handleTypeExtChange()}>EXT</Checkbox>
-          <Checkbox colorScheme="primary" isChecked={filter.int} onChange={(e) => handleTypeIntChange()}>INT</Checkbox>
-          <Select name="health_insurance" label="Convênio" onChange={(e) => handleInsuranceChange(e.target.value)} value={filter.insurance}>
+          <Checkbox
+            colorScheme="primary"
+            isChecked={filter.amb}
+            onChange={() => handleTypeAmbChange()}
+          >
+            AMB
+          </Checkbox>
+          <Checkbox
+            colorScheme="primary"
+            isChecked={filter.ext}
+            onChange={() => handleTypeExtChange()}
+          >
+            EXT
+          </Checkbox>
+          <Checkbox
+            colorScheme="primary"
+            isChecked={filter.int}
+            onChange={() => handleTypeIntChange()}
+          >
+            INT
+          </Checkbox>
+          <Select
+            name="health_insurance"
+            label="Convênio"
+            onChange={(e) => handleInsuranceChange(e.target.value)}
+            value={filter.insurance}
+          >
             {healthInsurances.isLoading ? (
               <option value={0}>Carregando...</option>
             ) : (
               <>
-                {healthInsurances.data.map(insurance => (
-                  <option key={insurance.id} value={insurance.id}>{insurance.name}</option>
+                {healthInsurances.data.map((insurance) => (
+                  <option key={insurance.id} value={insurance.id}>
+                    {insurance.name}
+                  </option>
                 ))}
               </>
             )}
@@ -147,16 +194,18 @@ export default function Attach() {
       ) : (
         <>
           <TableAppointments appointments={appointments.data.appointments} />
-          <Modal isCentered motionPreset='slideInBottom' isOpen={isOpen} onClose={onClose} size="xl">
+          <Modal
+            isCentered
+            motionPreset="slideInBottom"
+            isOpen={isOpen}
+            onClose={onClose}
+            size="xl"
+          >
             <ModalOverlay />
-            <ModalContent
-              bg="gray.800"
-            >
+            <ModalContent bg="gray.800">
               <ModalHeader>Anexar documento</ModalHeader>
               <ModalCloseButton />
-              <ModalBody>
-
-              </ModalBody>
+              <ModalBody></ModalBody>
             </ModalContent>
           </Modal>
           <Pagination

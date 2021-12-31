@@ -1,3 +1,4 @@
+import React from "react";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import Router from "next/router";
@@ -7,29 +8,29 @@ import { api } from "../services/api";
 type Group = {
   id: string;
   group: string;
-}
+};
 
 type User = {
   fullName: string;
   shortName: string;
   groups: Group[];
-}
+};
 
 type SignInCredentials = {
   username: string;
   password: string;
-}
+};
 
 type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): Promise<void>;
   user: User;
   isAuthenticated: boolean;
-}
+};
 
 type AuthProviderProps = {
   children: ReactNode;
-}
+};
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -41,11 +42,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { "vico-token": token } = parseCookies();
 
     if (token) {
-      api.get("/me").then(response => {
-        setUser(response.data);
-      }).catch(() => {
-        destroyCookie(undefined, "vico-token");
-      });
+      api
+        .get("/me")
+        .then((response) => {
+          setUser(response.data);
+        })
+        .catch(() => {
+          destroyCookie(undefined, "vico-token");
+        });
     }
   }, []);
 
@@ -65,11 +69,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         path: "/",
       });
 
-      api.defaults.headers['Authorization'] = `Bearer ${token}`;
-
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
     } catch (err) {
-
-
+      // continue regardless of error
     }
   }
 
@@ -77,7 +79,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     Router.push("/");
     setUser(null);
     destroyCookie(undefined, "vico-token");
-    api.defaults.headers['Authorization'] = null;
+    api.defaults.headers["Authorization"] = null;
   }
 
   return (
@@ -85,4 +87,4 @@ export function AuthProvider({ children }: AuthProviderProps) {
       {children}
     </AuthContext.Provider>
   );
-};
+}

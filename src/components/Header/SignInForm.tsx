@@ -1,17 +1,18 @@
-import { Stack, IconButton, Icon } from '@chakra-ui/react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup'
+import React from "react";
+import { Stack, IconButton, Icon } from "@chakra-ui/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { BiCheck, BiUser, BiLockOpenAlt } from "react-icons/bi";
 
 import { Input } from "../Form/Input";
-import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 type SignInFormData = {
   username: string;
   password: string;
-}
+};
 
 const SignInFormSchema = yup.object().shape({
   username: yup.string().required("Campo obrigatório"),
@@ -19,20 +20,27 @@ const SignInFormSchema = yup.object().shape({
 });
 
 export function SignInForm() {
-  const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({
     resolver: yupResolver(SignInFormSchema),
   });
 
   const { signIn } = useContext(AuthContext);
 
-  const handleSignIn: SubmitHandler<SignInFormData> = async ({ username, password }) => {
+  const handleSignIn: SubmitHandler<SignInFormData> = async ({
+    username,
+    password,
+  }) => {
     const credentials = {
       username,
       password,
-    }
+    };
 
     await signIn(credentials);
-  }
+  };
 
   return (
     <Stack
@@ -40,7 +48,7 @@ export function SignInForm() {
       direction={{
         base: "row",
         md: "column",
-        lg: "row"
+        lg: "row",
       }}
       spacing="1rem"
       bg="gray.900"

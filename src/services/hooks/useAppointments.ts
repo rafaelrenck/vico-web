@@ -1,16 +1,16 @@
-import { useQuery } from 'react-query';
+import { useQuery } from "react-query";
 
-import { api } from '../../services/api';
+import { api } from "../../services/api";
 
 type Filter = {
-  month: string,
-  insurance: string,
-  amb: boolean,
-  ext: boolean,
-  int: boolean,
-  invoice: string,
-  patient: string,
-}
+  month: string;
+  insurance: string;
+  amb: boolean;
+  ext: boolean;
+  int: boolean;
+  invoice: string;
+  patient: string;
+};
 
 type Appointment = {
   id_fia: string;
@@ -20,14 +20,17 @@ type Appointment = {
   id_patient: string;
   patient: string;
   date_of_birth: string;
-}
+};
 
 type getAppointmentsResponse = {
   appointments: Appointment[];
   totalCount: number;
-}
+};
 
-async function getAppointments(currentPage: number, filter: Filter): Promise<getAppointmentsResponse> {
+async function getAppointments(
+  currentPage: number,
+  filter: Filter
+): Promise<getAppointmentsResponse> {
   const { data, headers } = await api.get("sigh/appointments", {
     params: {
       page: currentPage,
@@ -38,14 +41,18 @@ async function getAppointments(currentPage: number, filter: Filter): Promise<get
       int: filter.int,
       invoice: filter.invoice,
       patient: filter.patient,
-    }
+    },
   });
 
   return { appointments: data.appointments, totalCount: data.totalCount };
 }
 
 export function useAppointments(currentPage: number, filter: Filter) {
-  return useQuery(["appointments", { currentPage, filter }], () => getAppointments(currentPage, filter), {
-    staleTime: 1000 * 60 * 10,
-  });
+  return useQuery(
+    ["appointments", { currentPage, filter }],
+    () => getAppointments(currentPage, filter),
+    {
+      staleTime: 1000 * 60 * 10,
+    }
+  );
 }

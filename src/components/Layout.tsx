@@ -1,14 +1,14 @@
-import { ReactNode } from "react";
-import { Flex } from '@chakra-ui/react';
+import React, { ReactNode } from "react";
+import { Flex } from "@chakra-ui/react";
 
-import { Header } from './Header';
-import { Body } from './Body';
-import { Sidebar } from './Sidebar';
-import { Footer } from './Footer';
+import { Header } from "./Header";
+import { Body } from "./Body";
+import { Sidebar } from "./Sidebar";
+import { Footer } from "./Footer";
 
 type RootProps = {
   children?: ReactNode;
-}
+};
 
 export function Layout({ children }: RootProps) {
   return (
@@ -42,9 +42,7 @@ export function Layout({ children }: RootProps) {
           </Flex>
         </Flex>
       </Body>
-      <Footer>
-        &copy; 2021 - Hospital São Vicente de Paulo
-      </Footer>
+      <Footer>&copy; 2021 - Hospital São Vicente de Paulo</Footer>
     </Flex>
   );
 }

@@ -1,4 +1,4 @@
-import { ElementType, ReactNode } from "react";
+import React, { ElementType, ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Link as ChakraLink, Icon, Text, LinkProps } from "@chakra-ui/react";
@@ -26,7 +26,7 @@ export function NavLink({ icon, href, children, ...rest }: NavLinkProps) {
           color={isActive ? "primary.500" : "white"}
           bg={isActive ? "gray.800" : "transparent"}
         />
-        <Text ml="1rem" >{children}</Text>
+        <Text ml="1rem">{children}</Text>
       </ChakraLink>
     </Link>
   );

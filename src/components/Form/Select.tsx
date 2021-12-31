@@ -1,4 +1,10 @@
-import { FormControl, FormLabel, Select as FormSelect, SelectProps as FormSelectProps } from '@chakra-ui/react';
+import React from "react";
+import {
+  FormControl,
+  FormLabel,
+  Select as FormSelect,
+  SelectProps as FormSelectProps,
+} from "@chakra-ui/react";
 
 interface SelectProps extends FormSelectProps {
   name: string;
@@ -7,11 +13,7 @@ interface SelectProps extends FormSelectProps {
 
 export function Select({ name, label, ...rest }: SelectProps) {
   return (
-    <FormControl
-      position="relative"
-      bg="inherit"
-      w="full"
-    >
+    <FormControl position="relative" bg="inherit" w="full">
       {!!label && (
         <FormLabel
           id={`label${name}`}
@@ -25,7 +27,7 @@ export function Select({ name, label, ...rest }: SelectProps) {
           zIndex="100"
           transition="0.25s"
           _focus={{
-            color: "white"
+            color: "white",
           }}
         >
           {label}
@@ -48,7 +50,7 @@ export function Select({ name, label, ...rest }: SelectProps) {
         sx={{
           "& option": {
             backgroundColor: "gray.900",
-            color: "gray.500"
+            color: "gray.500",
           },
         }}
       />

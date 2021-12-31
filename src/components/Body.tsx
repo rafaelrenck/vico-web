@@ -1,6 +1,11 @@
+import React, { ReactNode } from "react";
 import { Flex } from "@chakra-ui/react";
 
-export function Body({ children }) {
+type BodyProps = {
+  children?: ReactNode;
+};
+
+export function Body({ children }: BodyProps) {
   return (
     <Flex
       flex="1"

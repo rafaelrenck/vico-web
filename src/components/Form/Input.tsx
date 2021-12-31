@@ -1,8 +1,23 @@
-import { forwardRef, ForwardRefRenderFunction, ReactElement, useState } from 'react';
-import { FieldError } from 'react-hook-form';
-import { FormControl, FormLabel, InputGroup, InputLeftElement, InputRightElement, Input as FormInput, InputProps as FormInputProps, Icon, Tooltip } from '@chakra-ui/react';
+import React from "react";
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  ReactElement,
+  useState,
+} from "react";
+import { FieldError } from "react-hook-form";
+import {
+  FormControl,
+  FormLabel,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Input as FormInput,
+  InputProps as FormInputProps,
+  Icon,
+  Tooltip,
+} from "@chakra-ui/react";
 import { FiAlertTriangle } from "react-icons/fi";
-
 
 interface InputProps extends FormInputProps {
   name: string;
@@ -12,18 +27,17 @@ interface InputProps extends FormInputProps {
   error?: FieldError;
 }
 
-const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ onChange, name, label, fixedLabel, icon, error, ...rest }, ref) => {
+const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
+  { onChange, name, label, fixedLabel, icon, error, ...rest },
+  ref
+) => {
   const [isFilled, setIsFilled] = useState(false);
-
-  function handleTextChange(value: string) {
-    setIsFilled(value !== "" ? true : false);
-  }
 
   return (
     <FormControl
       position="relative"
       bg="inherit"
-      w={ rest.w ? rest.w : "100%" }
+      w={rest.w ? rest.w : "100%"}
       isInvalid={!!error}
     >
       {!!label && (
@@ -31,10 +45,10 @@ const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ onC
           id={`label${name}`}
           htmlFor={name}
           position="absolute"
-          top={ fixedLabel || isFilled ? "-11px" : "6px" }
-          left={ fixedLabel || isFilled ? "12px" : icon ? "36px" : "15px" }
-          px={ fixedLabel || isFilled ? "3px" : "0" }
-          color={ fixedLabel || isFilled ? "gray.500" : "white" }
+          top={fixedLabel || isFilled ? "-11px" : "6px"}
+          left={fixedLabel || isFilled ? "12px" : icon ? "36px" : "15px"}
+          px={fixedLabel || isFilled ? "3px" : "0"}
+          color={fixedLabel || isFilled ? "gray.500" : "white"}
           bg="inherit"
           zIndex="100"
           transition="0.25s"
@@ -66,7 +80,7 @@ const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ onC
           transition="0.25s"
           focusBorderColor="white"
           _hover={{
-            borderColor: "gray.600"
+            borderColor: "gray.600",
           }}
           sx={{
             "::-webkit-calendar-picker-indicator": {
@@ -78,19 +92,26 @@ const InputCore: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ onC
           ref={ref}
           onChange={(e) => {
             onChange(e);
-            setIsFilled(e.target.value !== "" ? true : false)
+            setIsFilled(e.target.value !== "" ? true : false);
           }}
         />
         {error && (
           <InputRightElement fontSize="1.2rem">
-            <Tooltip hasArrow label={error.message} bg="gray.700" color="white" p="0.5rem 1rem" shouldWrapChildren>
-              <Icon as={FiAlertTriangle} color="primary.500"  />
+            <Tooltip
+              hasArrow
+              label={error.message}
+              bg="gray.700"
+              color="white"
+              p="0.5rem 1rem"
+              shouldWrapChildren
+            >
+              <Icon as={FiAlertTriangle} color="primary.500" />
             </Tooltip>
           </InputRightElement>
         )}
       </InputGroup>
     </FormControl>
   );
-}
+};
 
 export const Input = forwardRef(InputCore);
