@@ -151,7 +151,7 @@ export default function Attach() {
               <>
                 {healthInsurances.data.map((insurance) => (
                   <option key={insurance.id} value={insurance.id}>
-                    {insurance.name}
+                    {insurance.health_insurance}
                   </option>
                 ))}
               </>

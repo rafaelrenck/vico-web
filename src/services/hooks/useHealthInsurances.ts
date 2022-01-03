@@ -4,7 +4,7 @@ import { api } from "../../services/api";
 
 type HealthInsurance = {
   id: string;
-  name: string;
+  health_insurance: string;
 };
 
 async function getHealthInsurances(): Promise<HealthInsurance[]> {

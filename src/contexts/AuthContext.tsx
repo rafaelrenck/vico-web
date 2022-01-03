@@ -5,15 +5,10 @@ import Router from "next/router";
 
 import { api } from "../services/api";
 
-type Group = {
-  id: string;
-  group: string;
-};
-
 type User = {
   fullName: string;
   shortName: string;
-  groups: Group[];
+  groups: string[];
 };
 
 type SignInCredentials = {
@@ -55,7 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signIn({ username, password }: SignInCredentials) {
     try {
-      const response = await api.post("/sign-in", {
+      const response = await api.post("/login", {
         username,
         password,
       });

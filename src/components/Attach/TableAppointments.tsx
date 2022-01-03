@@ -24,9 +24,9 @@ type TableAppointmentsProps = {
       id_fia: string;
       date: string;
       hour: string;
-      patient: string;
-      id_patient: string;
       type: string;
+      id_patient: string;
+      patient: string;
     }
   ];
 };
@@ -84,7 +84,10 @@ export default function TableAppointments({
               </Td>
               <Td>
                 <Stack spacing="0.2rem">
-                  <Text fontWeight="semibold">{appointment.patient}</Text>
+                  <Text fontWeight="semibold">
+                    {appointment.patient}
+                    {appointment.id_fia}
+                  </Text>
                   <HStack spacing="2rem" color="gray.600" fontSize="0.8rem">
                     <Text>
                       Registro:

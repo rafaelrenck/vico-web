@@ -19,7 +19,6 @@ type Appointment = {
   type: string;
   id_patient: string;
   patient: string;
-  date_of_birth: string;
 };
 
 type getAppointmentsResponse = {
@@ -31,7 +30,7 @@ async function getAppointments(
   currentPage: number,
   filter: Filter
 ): Promise<getAppointmentsResponse> {
-  const { data, headers } = await api.get("sigh/appointments", {
+  const { data } = await api.get("sigh/appointments", {
     params: {
       page: currentPage,
       insurance: filter.insurance,
@@ -44,7 +43,7 @@ async function getAppointments(
     },
   });
 
-  return { appointments: data.appointments, totalCount: data.totalCount };
+  return data;
 }
 
 export function useAppointments(currentPage: number, filter: Filter) {
